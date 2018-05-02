@@ -1,7 +1,7 @@
 ---
 selenoid_version: 1.6.0 # Install selenoid version
 selenoid_cm_version: 1.4.2 # Install configuration manager version
-selenoid_limit: 5 # Total number of simultaneously running containers http://aerokube.com/selenoid/latest/#_recommended_docker_settings
+selenoid_limit: 2 # Total number of simultaneously running containers http://aerokube.com/selenoid/latest/#_recommended_docker_settings
 selenoid_tmpfs: 128 # Add in-memory filesystem (tmpfs) to container http://aerokube.com/selenoid/latest/#_other_optional_fields
 selenoid_config_dir: /root/.aerokube/selenoid # Selenoid configuration dir
 selenoid_listen_port: 4444 # Listen port
@@ -10,6 +10,6 @@ selenoid_browsers_last_versions: 1 # How many last version browsers need downloa
 selenoid_browsers: # What browsers to download
   - firefox
   # - opera
-  # - chrome
+  - chrome
 selenoid_video_host_output_dir: /var/lib/selenoid/video # Dir for save video in host path
 selenoid_video_container_output_dir: /opt/selenoid/video # Dir for save video in container (default: /opt/selenoid/video)

@@ -1,0 +1,26 @@
+#start ec2 instance
+
+- name: Start sandbox instances
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    key_name: mbp
+    instance_type: t2.micro
+    security_group: test
+    image: ami-916f59f4
+    region: us-east-2
+  tasks:
+    - name: Launch instance
+      ec2:
+         key_name: "{{ key_name }}"
+         group: "{{ security_group }}"
+         instance_type: "{{ instance_type }}"
+         image: "{{ image }}"
+         wait: true
+         region: "{{ region }}"
+         exact_count: 0
+         count_tag:
+            Name: Test-Selenoid
+         instance_tags:
+            Name: Test-Selenoid

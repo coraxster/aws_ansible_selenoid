@@ -1,16 +1,16 @@
 ---
 
 
-# - name: Selenoid | Check selenoid container exist
-#   shell: 'docker ps -aq --filter "name={{ item }}"'
-#   with_items:
-#     - 'selenoid'
-#   register: found_containers
+- name: Selenoid | Check selenoid container exist
+  shell: 'docker ps -aq --filter "name={{ item }}"'
+  with_items:
+    - 'selenoid'
+  register: found_containers
 
-# - name: Selenoid | Remove selenoid container if exist
-#   shell: 'docker stop {{ item.item }} && docker rm -fv {{ item.item }}'
-#   with_items: '{{ found_containers.results }}'
-#   when: item.stdout
+- name: Selenoid | Remove selenoid container if exist
+  shell: 'docker stop {{ item.item }} && docker rm -fv {{ item.item }}'
+  with_items: '{{ found_containers.results }}'
+  when: item.stdout
 
 - name: Selenoid | Create video folder
   file:
@@ -18,17 +18,20 @@
     state: directory
     mode: 0755
 
-- name: Config
-  raw:  >
-    docker pull aerokube/selenoid &&
-    docker run -v /var/run/docker.sock:/var/run/docker.sock -v /root:/root -v "{{ selenoid_video_host_output_dir }}:{{ selenoid_video_container_output_dir }}" -e "OVERRIDE_HOME=/root" aerokube/cm selenoid configure --browsers {% for browser in selenoid_browsers -%}{{ browser }}{%- if not loop.last -%},{%- endif -%}{%- endfor %}
+- name: Selenoid | Upload CM
+  copy:
+    src: "{{ role_path }}/cm"
+    dest: /bin/cm
+    mode: 777
 
-- name: Run
+- name: Selenoid | Run CM
   raw:  >
-    docker run -v /var/run/docker.sock:/var/run/docker.sock -v /root:/root -v "{{ selenoid_video_host_output_dir }}:{{ selenoid_video_container_output_dir }}" -e "OVERRIDE_HOME=/root" aerokube/cm selenoid start
+    cm selenoid start
+    --vnc
     --config-dir {{ selenoid_config_dir }}
     --tmpfs {{ selenoid_tmpfs }}
     --browsers {% for browser in selenoid_browsers -%}{{ browser }}{%- if not loop.last -%},{%- endif -%}{%- endfor %}
     --last-versions {{ selenoid_browsers_last_versions }}
     --vnc
     --args "-limit {{ selenoid_limit }} -listen :{{ selenoid_listen_port }} -video-output-dir={{ selenoid_video_container_output_dir }} -conf /etc/selenoid/browsers.json"
+    
