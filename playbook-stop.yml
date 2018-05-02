@@ -1,6 +1,6 @@
 #start ec2 instance
 
-- name: Start sandbox instances
+- name: Termonate sandbox instances
   hosts: localhost
   connection: local
   gather_facts: False
@@ -11,7 +11,7 @@
     image: ami-916f59f4
     region: us-east-2
   tasks:
-    - name: Launch instance
+    - name: Termonate instance
       ec2:
          key_name: "{{ key_name }}"
          group: "{{ security_group }}"
@@ -24,3 +24,5 @@
             Name: Test-Selenoid
          instance_tags:
             Name: Test-Selenoid
+    - name: Delete hosts
+      local_action: copy content='' dest=./hosts
