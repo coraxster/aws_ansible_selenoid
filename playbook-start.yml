@@ -4,12 +4,6 @@
   hosts: localhost
   connection: local
   gather_facts: False
-  vars:
-    key_name: mbp
-    instance_type: t2.micro
-    security_group: test
-    image: ami-916f59f4
-    region: us-east-2
   tasks:
     - name: Launch instance
       ec2:
@@ -24,6 +18,7 @@
             Name: Test-Selenoid
          instance_tags:
             Name: Test-Selenoid
+            Suite: "{{ test_suite }}"
       register: ec2
 
     - name: Add new instance to host group

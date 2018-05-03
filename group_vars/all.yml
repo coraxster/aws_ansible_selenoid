@@ -1,0 +1,14 @@
+---
+
+
+
+key_name: mbp
+instance_type: t2.micro
+security_group: test
+image: ami-916f59f4
+region: us-east-2
+test_suite: ignite2
+selenoid_browsers:
+  - firefox
+#  - opera
+  - chrome

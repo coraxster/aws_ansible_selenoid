@@ -9,7 +9,7 @@ selenoid_time_zone: Europe/Moscow # Timezone in container
 selenoid_browsers_last_versions: 1 # How many last version browsers need download in selenoid
 selenoid_browsers: # What browsers to download
   - firefox
-  # - opera
+  - opera
   - chrome
 selenoid_video_host_output_dir: /var/lib/selenoid/video # Dir for save video in host path
 selenoid_video_container_output_dir: /opt/selenoid/video # Dir for save video in container (default: /opt/selenoid/video)

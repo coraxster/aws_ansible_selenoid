@@ -1,4 +1,4 @@
-#stop ec2 instance
+#stop all ec2 instance
 
 - name: Termonate sandbox instances
   hosts: localhost
@@ -10,6 +10,7 @@
     security_group: test
     image: ami-916f59f4
     region: us-east-2
+    test_suite: ignite2
   tasks:
     - name: Termonate instance
       ec2:
@@ -21,8 +22,8 @@
          region: "{{ region }}"
          exact_count: 0
          count_tag:
-            Name: Test-Selenoid
+            Suite: "{{ test_suite }}"
          instance_tags:
-            Name: Test-Selenoid
-    - name: Delete hosts
+            Suite: "{{ test_suite }}"
+    - name: Delete all "{{ test_suite }}" hosts
       local_action: copy content='' dest=./hosts
