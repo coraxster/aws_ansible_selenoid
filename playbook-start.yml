@@ -5,6 +5,20 @@
   connection: local
   gather_facts: False
   tasks:
+    - name: Create an EC2 key
+      ec2_key:
+        name: "{{ key_name }}"
+        region: "{{ region }}"
+        force: false
+      register: ec2_key
+
+    - name: Save EC2 private key
+      copy:
+        content: "{{ ec2_key.key.private_key }}" 
+        dest: "{{ ansible_ssh_private_key_file }}"
+        mode: 0600
+      when: ec2_key.changed
+
     - name: Launch instance
       ec2:
          key_name: "{{ key_name }}"
