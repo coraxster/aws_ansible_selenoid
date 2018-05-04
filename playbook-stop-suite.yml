@@ -1,4 +1,4 @@
-#stop ec2 instance
+#stop all ec2 instance
 
 - name: Terminate sandbox instances
   hosts: localhost
@@ -17,10 +17,10 @@
          count_tag:
             Playbook: "{{ playbook_tag }}"
             Suite: "{{ suite_tag }}"
-            Build: "{{ build_tag }}"
          instance_tags:
             Playbook: "{{ playbook_tag }}"
             Suite: "{{ suite_tag }}"
-            Build: "{{ build_tag }}"
-    - name: Delete hosts
-      local_action: file path="./hosts/host-{{ suite_tag }}-{{ build_tag }}" state=absent
+
+    - name: Delete all "{{ suite_tag }}" hosts
+      file: path={{ item }} state=absent
+      with_fileglob: "./hosts/host-{{ suite_tag }}-*"

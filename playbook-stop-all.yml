@@ -1,16 +1,9 @@
 #stop all ec2 instance
 
-- name: Termonate sandbox instances
+- name: Terminate sandbox instances
   hosts: localhost
   connection: local
   gather_facts: False
-  vars:
-    key_name: mbp
-    instance_type: t2.micro
-    security_group: test
-    image: ami-916f59f4
-    region: us-east-2
-    test_suite: ignite2
   tasks:
     - name: Termonate instance
       ec2:
@@ -22,8 +15,9 @@
          region: "{{ region }}"
          exact_count: 0
          count_tag:
-            Suite: "{{ test_suite }}"
+            Playbook: "{{ playbook_tag }}"
          instance_tags:
-            Suite: "{{ test_suite }}"
-    - name: Delete all "{{ test_suite }}" hosts
-      local_action: copy content='' dest=./hosts
+            Playbook: "{{ playbook_tag }}"
+    - name: Delete all playbooks hosts
+      file: path={{ item }} state=absent
+      with_fileglob: "./hosts/host-*"

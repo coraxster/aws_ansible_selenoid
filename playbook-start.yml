@@ -29,10 +29,15 @@
          region: "{{ region }}"
          exact_count: 1
          count_tag:
-            Name: Test-Selenoid
+            Playbook: "{{ playbook_tag }}"
+            Suite: "{{ suite_tag }}"
+            Build: "{{ build_tag }}" 
          instance_tags:
-            Name: Test-Selenoid
-            Suite: "{{ test_suite }}"
+            Name: "{{ playbook_tag }}-{{ suite_tag }}" # just a human-readble name
+            Playbook: "{{ playbook_tag }}" # same for all instances created with this playbook
+            # add these by --extra-vars "build_tag=build123 suite_tag=ignite2"
+            Suite: "{{ suite_tag }}" # unique for the whole test-suite, key to start and stop all suite instances
+            Build: "{{ build_tag }}" # unique for each build, key to start and stop 1 instance,
       register: ec2
 
     - name: Add new instance to host group
@@ -40,12 +45,12 @@
         hostname: "{{ item.public_ip }}" 
         groupname: launched
       with_items: "{{ ec2.instances }}"
-    
+
     - name: Save instance address 
       local_action:
         module: lineinfile
-        dest: ./hosts
-        line: "{{ item.public_dns_name | default(' ') }}"
+        dest: "./hosts/host-{{ suite_tag }}-{{ build_tag }}"
+        line: "{{ item.public_dns_name}}"
         create: yes
       with_items: "{{ ec2.instances }}"
 

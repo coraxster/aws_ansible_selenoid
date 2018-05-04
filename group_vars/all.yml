@@ -1,14 +1,14 @@
 ---
 
 
-
-key_name: selenoid-test
+playbook_tag: selenoid-test # same for all instances created with this playbook
+key_name: selenoid-test # same for all instances created with this playbook
 ansible_ssh_private_key_file: "~/.ssh/{{ key_name }}-private.pem" 
+
 instance_type: t2.micro
 security_group: test
 image: ami-916f59f4
 region: us-east-2
-test_suite: ignite2
 selenoid_browsers:
   - firefox
 #  - opera
