@@ -27,6 +27,7 @@
          image: "{{ image }}"
          wait: true
          region: "{{ region }}"
+         vpc_subnet_id: "{{ vpc_subnet_id }}"
          exact_count: 1
          count_tag:
             Playbook: "{{ playbook_tag }}"
