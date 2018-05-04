@@ -71,7 +71,7 @@
   gather_facts: False
   pre_tasks:
     - name: Install python
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      raw: test -e /usr/bin/python || (apt -y upgrade && apt -y update && apt install -y python-minimal)
   tasks:
     - name: Install docker
       apt:
