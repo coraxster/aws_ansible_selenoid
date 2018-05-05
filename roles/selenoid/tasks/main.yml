@@ -13,14 +13,30 @@
     dest: /bin/cm
     mode: 777
 
+- name: Selenoid | Create config dir
+  file:
+    path: "{{ selenoid_config_dir }}"
+    state: directory
+    mode: 0777
+
+- name: Selenoid | Upload browsers.json
+  copy:
+    src: "{{ role_path }}/browsers.json"
+    dest: "{{ selenoid_config_dir }}/browsers.json"
+    mode: 777
+
+- name: Selenoid | Pull browsers
+  raw:  >
+    docker pull selenoid/vnc:chrome_64.0 &&
+    docker pull selenoid/vnc:chrome_53.0 &&
+    docker pull selenoid/vnc:firefox_47.0
+
 - name: Selenoid | Run CM
   raw:  >
     cm selenoid start
     --vnc
     --config-dir {{ selenoid_config_dir }}
     --tmpfs {{ selenoid_tmpfs }}
-    --browsers {% for browser in selenoid_browsers -%}{{ browser }}{%- if not loop.last -%},{%- endif -%}{%- endfor %}
-    --last-versions {{ selenoid_browsers_last_versions }}
     --vnc
     --args "-limit {{ selenoid_limit }} -listen :{{ selenoid_listen_port }} -video-output-dir={{ selenoid_video_container_output_dir }} -conf /etc/selenoid/browsers.json"
     

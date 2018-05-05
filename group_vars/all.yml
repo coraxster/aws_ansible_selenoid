@@ -10,7 +10,3 @@ security_group: test
 vpc_subnet_id: subnet-b37f5dee
 image: ami-43a15f3e
 region: us-east-1
-selenoid_browsers:
-  - firefox
-#  - opera
-  - chrome
