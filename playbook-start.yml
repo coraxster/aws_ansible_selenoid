@@ -72,7 +72,7 @@
   gather_facts: False
   pre_tasks:
     - name: Install python
-      shell: test -e /usr/bin/python || (apt -y upgrad && apt -y update && apt install -y python-minimal)
+      raw: test -e /usr/bin/python || (apt -y upgrade && apt -y update && apt install -y python-minimal)
       register: task_result
       until: task_result.rc == 0
       ignore_errors: yes
