@@ -44,7 +44,7 @@
 
     - name: Add new instance to host group
       add_host:
-        hostname: "{% if  use_public_ip == 'true' %} {{ item.public_ip }} {% else %} {{ item.private_ip }} {% endif %}"
+        hostname: "{% if  use_public_ip == 'true' %}{{ item.public_ip }}{% else %}{{ item.private_ip }}{% endif %}"
         groupname: launched
       with_items: "{{ ec2.instances }}"
 
@@ -52,13 +52,13 @@
       local_action:
         module: lineinfile
         dest: "./hosts/host-{{ suite_tag }}-{{ build_tag }}"
-        line: "{% if  use_public_ip == 'true' %} {{ item.public_ip }} {% else %} {{ item.private_ip }} {% endif %}"
+        line: "{% if  use_public_ip == 'true' %}{{ item.public_ip }}{% else %}{{ item.private_ip }}{% endif %}"
         create: yes
       with_items: "{{ ec2.instances }}"
 
     - name: Wait for SSH to come up
       wait_for:
-        host: "{% if  use_public_ip == 'true' %} {{ item.public_ip }} {% else %} {{ item.private_ip }} {% endif %}"
+        host: "{% if  use_public_ip == 'true' %}{{ item.public_ip }}{% else %}{{ item.private_ip }}{% endif %}"
         port: 22
         delay: 5
         timeout: 320
