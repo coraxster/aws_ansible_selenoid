@@ -3,7 +3,7 @@
 
 playbook_tag: selenoid-test # same for all instances created with this playbook
 key_name: selenoid-test # same for all instances created with this playbook
-ansible_ssh_private_key_file: "~/.ssh/{{ key_name }}-private.pem" 
+ansible_ssh_private_key_file: "~/.ssh/{{ key_name }}-private.pem" # where to store generated key
 
 use_public_ip: false
 instance_type: t2.micro

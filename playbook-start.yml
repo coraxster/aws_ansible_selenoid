@@ -6,6 +6,8 @@
   gather_facts: False
   tasks:
 
+# todo: нужно выделить в отдельную роль создание инстанса
+
     - name: Create an EC2 key
       ec2_key:
         name: "{{ key_name }}"
