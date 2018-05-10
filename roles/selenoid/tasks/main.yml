@@ -37,6 +37,5 @@
     --vnc
     --config-dir {{ selenoid_config_dir }}
     --tmpfs {{ selenoid_tmpfs }}
-    --vnc
-    --args "-limit {{ selenoid_limit }} -listen :{{ selenoid_listen_port }} -video-output-dir={{ selenoid_video_container_output_dir }} -conf /etc/selenoid/browsers.json"
+    --args "-limit {{ selenoid_limit }} -listen :{{ selenoid_listen_port }} -video-output-dir={{ selenoid_video_container_output_dir }} -timeout 3m0s -session-delete-timeout 3m0s -conf /etc/selenoid/browsers.json"
     
