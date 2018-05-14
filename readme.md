@@ -5,7 +5,7 @@ Might be useful as ec2 Selenium Selenoid Servers provider for some sort of CI, t
 for example  
 1. Start instance
 2. Run your rest suite with started host
-3. Start instance
+3. Terminate instance
 
 
 ### Require
