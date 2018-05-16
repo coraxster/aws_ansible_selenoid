@@ -9,7 +9,7 @@ for example
 
 
 ### Require
-Boto, Boto3, AWS-CLI, ec2 role with ability to manage ec2(via role asigned to instance or in ~/.aws/credential)... all things needed to start ec2 via aws-cli.
+Ansible, Boto, Boto3, AWS-CLI, ec2 role with ability to manage ec2(via role asigned to instance or in ~/.aws/credential)... all things needed to start ec2 via aws-cli.
 
 ### Config
 ./group_vars/all.yml
