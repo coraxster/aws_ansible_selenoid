@@ -3,19 +3,19 @@
         "default": "64.0",
         "versions": {
             "64.0": {
-                "image": "selenoid/vnc:chrome_64.0",
+                "image": "selenoid/chrome:64.0",
                 "port": "4444",
                 "path": "/",
                 "tmpfs": {
-                    "/tmp": "size=256m"
+                    "/tmp": "size=512m"
                 }
             },
             "53.0": {
-                "image": "selenoid/vnc:chrome_53.0",
+                "image": "selenoid/chrome:53.0",
                 "port": "4444",
                 "path": "/",
                 "tmpfs": {
-                    "/tmp": "size=256m"
+                    "/tmp": "size=512m"
                 }
             }
         }
@@ -24,11 +24,11 @@
         "default": "47.0",
         "versions": {
             "47.0": {
-                "image": "selenoid/vnc:firefox_47.0",
+                "image": "selenoid/firefox:47.0",
                 "port": "4444",
                 "path": "/wd/hub",
                 "tmpfs": {
-                    "/tmp": "size=256m"
+                    "/tmp": "size=512m"
                 }
             }
         }

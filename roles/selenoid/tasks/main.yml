@@ -1,41 +1,24 @@
 ---
 
-
-- name: Selenoid | Create video folder
-  file:
-    path: "{{ selenoid_video_host_output_dir }}"
-    state: directory
-    mode: 0755
-
-- name: Selenoid | Upload CM
-  copy:
-    src: "{{ role_path }}/cm"
-    dest: /bin/cm
-    mode: 777
-
 - name: Selenoid | Create config dir
   file:
-    path: "{{ selenoid_config_dir }}"
+    path: /root/.aerokube/selenoid
     state: directory
     mode: 0777
 
 - name: Selenoid | Upload browsers.json
   copy:
     src: "{{ role_path }}/browsers.json"
-    dest: "{{ selenoid_config_dir }}/browsers.json"
+    dest: "/root/.aerokube/selenoid/browsers.json"
     mode: 777
+
+- set_fact: browser_images="{{ (lookup('file','{{ role_path }}/browsers.json') | from_json | json_query('*.versions.*.image') ) }}"
 
 - name: Selenoid | Pull browsers
   raw:  >
-    docker pull selenoid/vnc:chrome_64.0 &&
-    docker pull selenoid/vnc:chrome_53.0 &&
-    docker pull selenoid/vnc:firefox_47.0
+    docker pull {{item}}
+  with_items: "{{browser_images}}"
 
-- name: Selenoid | Run CM
-  raw:  >
-    cm selenoid start
-    --vnc
-    --config-dir {{ selenoid_config_dir }}
-    --tmpfs {{ selenoid_tmpfs }}
-    --args "-limit {{ selenoid_limit }} -listen :{{ selenoid_listen_port }} -video-output-dir={{ selenoid_video_container_output_dir }} -timeout 3m0s -session-delete-timeout 3m0s -conf /etc/selenoid/browsers.json"
-    
+- name: Run Selenoid
+  raw: >
+    docker run -d --name selenoid -p {{ selenoid_listen_port }}:4444  -e TZ={{ selenoid_time_zone }} -v /var/run/docker.sock:/var/run/docker.sock -v /root/.aerokube/selenoid/:/etc/selenoid/:ro  aerokube/selenoid:{{ selenoid_version }} -limit {{ selenoid_limit }} -timeout {{ selenoid_timeout }} -conf /etc/selenoid/browsers.json

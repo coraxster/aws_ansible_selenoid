@@ -38,3 +38,8 @@ ansible-playbook playbook-stop-suite.yml --extra-vars "suite_tag=ignite2"
 ```
 ansible-playbook playbook-stop-all.yml
 ```
+
+#### Also. Describe running instances
+```
+aws ec2 describe-instances --filters Name=tag:Playbook,Values=selenoid-test Name=instance-state-code,Values=16
+```
