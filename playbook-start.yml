@@ -37,7 +37,7 @@
             Suite: "{{ suite_tag }}"
             Build: "{{ build_tag }}" 
          instance_tags:
-            Name: "{{ playbook_tag }}-{{ suite_tag }}" # just a human-readble name
+            Name: "{{ playbook_tag }}-{{ suite_tag }}-{{ build_tag }}" # just a human-readble name
             Playbook: "{{ playbook_tag }}" # same for all instances created with this playbook
             # add these by --extra-vars "build_tag=build123 suite_tag=ignite2"
             Suite: "{{ suite_tag }}" # unique for the whole test-suite, key to stop all suite instances
